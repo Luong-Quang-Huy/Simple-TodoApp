@@ -1,6 +1,7 @@
 import { useTasksContent, useDispatchContext} from "./AppContext";
 export default function TaskList({filterType}){
     const tasks = useTasksContent();
+    const pendingTask = tasks.reduce((count, task) => task.done ? count : count + 1, 0);
     let filtedTasks = [];
     switch(filterType){
         case 'all':
@@ -17,9 +18,14 @@ export default function TaskList({filterType}){
             break;
     }
     const taskElements = filtedTasks.map(task => <li key={task.id}><Task task={task}/></li>);
-    return <ul className="task-list">
-        {taskElements};
-    </ul>;
+    return (
+      <div>
+        <ul className="task-list">{taskElements}</ul>
+        <p className="pending-task-label">
+          {pendingTask === 0 ? "All done. :)" : `${pendingTask} pending task`}
+        </p>
+      </div>
+    );
 }
 
 function Task({task}){

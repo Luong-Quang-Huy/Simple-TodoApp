@@ -6,6 +6,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  font-family: sans-serif;
 }
 
 .todo-form {
@@ -142,4 +143,10 @@ input:not(.task-input) {
 #task-count {
   margin-top: 12px;
   font-weight: 700;
+}
+
+
+.pending-task-label{
+  letter-spacing: 1px;
+  font-size: large;
 }

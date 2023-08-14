@@ -52,6 +52,6 @@ export function TasksProvider({children}){
 }
 
 const initialTasks = [
-  { id: 0, content: "làm trận lol", done: true },
+  { id: 0, content: "đi đá bóng", done: true },
   { id: 1, content: "làm bài tập", done: false },
 ];
