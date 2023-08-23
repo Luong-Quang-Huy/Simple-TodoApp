@@ -30,6 +30,9 @@ function taskReducer(tasks,action){
         case 'toggle-check':{
             return tasks.map(task => task.id === action.taskId ? {...task, done: action.checked} : task);
         }
+        case 'update':{
+            return tasks.map(task => task.id === action.taskId ? {...task, content: action.content} : task);
+        }
         case 'delete':{
             return tasks.filter(task => task.id !== action.taskId);
         }
@@ -52,6 +55,6 @@ export function TasksProvider({children}){
 }
 
 const initialTasks = [
-  { id: 0, content: "đi đá bóng", done: true },
+  { id: 0, content: "làm trận lol", done: true },
   { id: 1, content: "làm bài tập", done: false },
 ];

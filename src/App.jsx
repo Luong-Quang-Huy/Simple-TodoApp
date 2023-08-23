@@ -8,7 +8,7 @@ import TaskList from './TaskList'
 
 function App() {
   const [filterType, setFilterType] = useState('all');
-
+  
   return (
     <>
     <div className='todo-form'>

@@ -1,4 +1,5 @@
 import { useTasksContent, useDispatchContext} from "./AppContext";
+import { useState } from "react";
 export default function TaskList({filterType}){
     const tasks = useTasksContent();
     const pendingTask = tasks.reduce((count, task) => task.done ? count : count + 1, 0);
@@ -29,6 +30,8 @@ export default function TaskList({filterType}){
 }
 
 function Task({task}){
+    const [onEdit, setOnEdit] = useState(false);
+    const [input, setInput] = useState(task.content);
     const dispatch = useDispatchContext();
 
     const handleTaskCheckChange = (e) => {
@@ -39,6 +42,15 @@ function Task({task}){
         });
     }
 
+    const handleUpdateContent = (e) => {
+      setOnEdit(false);
+      dispatch({
+        type: "update",
+        taskId: task.id,
+        content: input
+      });
+    }
+
     const handleDeleteTask = (e) => {
         dispatch({
             type: 'delete',
@@ -46,23 +58,49 @@ function Task({task}){
         });
     }
 
+    if(onEdit){
+       return (
+         <div>
+           <input
+             className="task-checkbox"
+             type="checkbox"
+             checked={task.done}
+             onChange={handleTaskCheckChange}
+           />
+           <input type="text" value={input} onChange={e => setInput(e.target.value)}/>
+           {input.trim() !== '' ? <button
+            onClick={handleUpdateContent}
+            className="btn-edit">
+              Save
+            </button> : <button onClick={()=> {
+                setOnEdit(false);
+                setInput(task.content);
+              }
+            }
+            className="btn-edit"
+            >Cancel</button>}
+           <button className="btn--delete" onClick={handleDeleteTask}>
+             Delete
+           </button>
+         </div>
+       ); 
+    }else{
     return (
-      <>
-        <div>
-          <input
-            className="task-checkbox"
-            type="checkbox"
-            checked={task.done}
-            onChange={handleTaskCheckChange}
-          />
-          <label>{task.content}</label>
-          <button
-            className="btn--delete"
-            onClick={handleDeleteTask}
-          >
-            Delete
-          </button>
-        </div>
-      </>
+      <div>
+        <input
+          className="task-checkbox"
+          type="checkbox"
+          checked={task.done}
+          onChange={e => handleTaskCheckChange(e)}
+        />
+        <label>{task.content}</label>
+        <button onClick={() => setOnEdit(true)} className="btn-edit">
+          Edit
+        </button>
+        <button className="btn--delete" onClick={handleDeleteTask}>
+          Delete
+        </button>
+      </div>
     );
+  }
 }

@@ -9,7 +9,7 @@ export default function AddTask(){
     }
 
     const handleCreateTask = () => {
-        if(taskContent !== ''){
+        if(taskContent.trim() !== ''){
             dispatch({
                 type: 'add',
                 content: taskContent
